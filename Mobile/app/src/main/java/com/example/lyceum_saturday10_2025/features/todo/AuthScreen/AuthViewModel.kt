@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.lyceum_saturday10_2025.common.UserPrefsManager
 import com.example.lyceum_saturday10_2025.common.api.AuthRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
@@ -14,12 +15,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = AuthRepository(application)
 
     sealed class AuthState {
+        object Idle : AuthState()
         object Success : AuthState()
         data class Error(val message: String) : AuthState()
         object Loading : AuthState()
     }
 
-    val authState = MutableLiveData<AuthState>()
+    val authState = MutableStateFlow<AuthState>(AuthState.Idle)
 
     fun login(username: String, password: String) = viewModelScope.launch {
         authState.value = AuthState.Loading
