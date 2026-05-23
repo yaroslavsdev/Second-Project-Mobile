@@ -1,4 +1,4 @@
-package com.example.lyceum_saturday10_2025.features.todo.data.model
+package com.example.lyceum_saturday10_2025.features.todo.MainScreen.data.model
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable

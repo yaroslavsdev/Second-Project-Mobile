@@ -1,11 +1,11 @@
-package com.example.lyceum_saturday10_2025.features.todo.data
+package com.example.lyceum_saturday10_2025.features.todo.MainScreen.data
 
 import android.content.Context
 import com.example.lyceum_saturday10_2025.common.JWTAuthenticator
 import com.example.lyceum_saturday10_2025.common.UserPrefsManager
 import com.example.lyceum_saturday10_2025.common.api.TokensApi
-import com.example.lyceum_saturday10_2025.features.todo.data.model.TodoModel
-import com.example.lyceum_saturday10_2025.features.todo.data.model.TodoRequest
+import com.example.lyceum_saturday10_2025.features.todo.MainScreen.data.model.TodoModel
+import com.example.lyceum_saturday10_2025.features.todo.MainScreen.data.model.TodoRequest
 import okhttp3.OkHttpClient.Builder
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.example.lyceum_saturday10_2025.features.todo.presentation
+package com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

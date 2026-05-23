@@ -97,7 +97,7 @@ def user_list():
 
 
 @app.route("/items")
-@jwt_required()
+# @jwt_required()
 def item_list():
     # items = [{
     #     "id": 1,

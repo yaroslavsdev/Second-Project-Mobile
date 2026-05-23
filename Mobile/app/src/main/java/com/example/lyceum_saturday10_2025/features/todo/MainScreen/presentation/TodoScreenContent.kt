@@ -1,4 +1,4 @@
-package com.example.lyceum_saturday10_2025.features.todo.presentation
+package com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.example.lyceum_saturday10_2025.features.todo.presentation.model.TodoItemUi
-import com.example.lyceum_saturday10_2025.features.todo.presentation.model.TodoUiState
+import com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation.model.TodoItemUi
+import com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation.model.TodoUiState
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable

@@ -1,11 +1,11 @@
-package com.example.lyceum_saturday10_2025.features.todo.presentation
+package com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lyceum_saturday10_2025.features.todo.data.TodoRepository
-import com.example.lyceum_saturday10_2025.features.todo.presentation.model.TodoItemUi
-import com.example.lyceum_saturday10_2025.features.todo.presentation.model.TodoUiState
+import com.example.lyceum_saturday10_2025.features.todo.MainScreen.data.TodoRepository
+import com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation.model.TodoItemUi
+import com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation.model.TodoUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
