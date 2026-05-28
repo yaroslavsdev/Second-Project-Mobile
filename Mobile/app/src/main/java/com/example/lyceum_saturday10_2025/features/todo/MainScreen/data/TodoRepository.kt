@@ -19,12 +19,7 @@ class TodoRepository(val applicationContext: Context) {
     }
 
     suspend fun getItems(): List<TodoModel> {
-        try {
-            return api.getItems()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return emptyList()
-        }
+        return api.getItems()
     }
 
     suspend fun addItem(text: String) {
@@ -32,8 +27,6 @@ class TodoRepository(val applicationContext: Context) {
     }
 
     private fun getRetrofit(): TodoApi {
-        val accessToken = prefs.accessToken
-
         val httpClient = Builder()
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -42,10 +35,11 @@ class TodoRepository(val applicationContext: Context) {
             chain.proceed(
                 chain.request().newBuilder().also {
                     it.addHeader("Accept", "application/json")
-                    if (accessToken != null) {
+                    val currentToken = prefs.accessToken
+                    if (currentToken != null) {
                         it.addHeader(
                             "Authorization",
-                            "Bearer $accessToken"
+                            "Bearer $currentToken"
                         )
                     }
                 }.build()

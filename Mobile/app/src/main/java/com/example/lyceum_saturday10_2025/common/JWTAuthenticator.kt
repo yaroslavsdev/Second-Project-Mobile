@@ -1,6 +1,7 @@
 package com.example.lyceum_saturday10_2025.common
 
 import android.content.Context
+import android.util.Log
 import com.example.lyceum_saturday10_2025.common.api.TokensApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -27,7 +28,8 @@ class JWTAuthenticator(
                     .header("Authorization", "Bearer ${tokensResponse.access_token}")
                     .build()
             } catch (e: Exception) {
-                e.printStackTrace()
+                prefsManager.clearUser()
+                Log.d("NAV", "Refresh failed, clearing user")
                 null
             }
         }

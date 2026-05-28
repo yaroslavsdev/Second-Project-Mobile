@@ -2,7 +2,6 @@ package com.example.lyceum_saturday10_2025.features.todo.AuthScreen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.lyceum_saturday10_2025.common.UserPrefsManager
 import com.example.lyceum_saturday10_2025.common.api.AuthRepository

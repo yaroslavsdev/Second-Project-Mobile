@@ -13,7 +13,7 @@ db = SQLAlchemy()
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 db.init_app(app)
 
-app.config["JWT_SECRET_KEY"] = "asdlasdhjalkjsdhlkjahdshflkjhaldjsh123"
+app.config["JWT_SECRET_KEY"] = "secret_key"
 jwt = JWTManager(app)
 
 
@@ -97,7 +97,7 @@ def user_list():
 
 
 @app.route("/items")
-# @jwt_required()
+@jwt_required()
 def item_list():
     # items = [{
     #     "id": 1,
@@ -117,6 +117,7 @@ def item_list():
 
 
 @app.route("/items/add", methods=["POST"])
+@jwt_required()
 def add_todo():
     text = request.json["text"]
     todoItem = TodoItem(text=text, userId=1)

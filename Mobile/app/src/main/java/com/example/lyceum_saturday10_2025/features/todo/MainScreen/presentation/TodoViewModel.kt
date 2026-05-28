@@ -23,16 +23,22 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadItems() {
         viewModelScope.launch {
-            _state.emit(
-                TodoUiState(
-                    repository.getItems().map { item ->
-                        TodoItemUi(
-                            id = item.id,
-                            text = item.text
-                        )
-                    }
+            try {
+                _state.emit(
+                    TodoUiState(
+                        repository.getItems().map { item ->
+                            TodoItemUi(id = item.id, text = item.text)
+                        }
+                    )
                 )
-            )
+            } catch (e: retrofit2.HttpException) {
+                if (e.code() == 422 || e.code() == 401) {
+                    repository.prefs.clearUser()
+                    _state.emit(TodoUiState(isUnauthorized = true))
+                }
+            } catch (e: Exception) {
+
+            }
         }
     }
 
@@ -41,5 +47,9 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
             repository.addItem(text)
             loadItems()
         }
+    }
+
+    fun clearUnauthorized() {
+        _state.value = _state.value.copy(isUnauthorized = false)
     }
 }
