@@ -28,13 +28,15 @@ import com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation.
 fun TodoScreenContent(
     state: TodoUiState,
     addItem: (String) -> Unit,
+    onLogout: () -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 8.dp)
+        modifier = Modifier.padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.Center
     ) {
         var textFieldValue by remember { mutableStateOf("") }
         OutlinedTextField(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
             value = textFieldValue,
             onValueChange = { newValue ->
                 if (newValue.endsWith('\n')) {
@@ -51,16 +53,25 @@ fun TodoScreenContent(
             }
         )
 
-        Button(
-            modifier = Modifier.padding(8.dp),
-            onClick = {
-                if (textFieldValue.isNotBlank()) {
-                    addItem(textFieldValue)
-                    textFieldValue = ""
+        Row {
+            Button(
+                modifier = Modifier.weight(1f).padding(8.dp),
+                onClick = {
+                    if (textFieldValue.isNotBlank()) {
+                        addItem(textFieldValue)
+                        textFieldValue = ""
+                    }
                 }
+            ) {
+                Text("Добавить")
             }
-        ) {
-            Text("Добавить")
+
+            Button(
+                modifier = Modifier.weight(1f).padding(8.dp),
+                onClick = onLogout
+            ) {
+                Text("Выйти")
+            }
         }
 
         LazyColumn(
@@ -95,6 +106,6 @@ private fun TodoScreenPreview() {
                 )
             )
         ),
-        {}
+        {}, {}
     )
 }

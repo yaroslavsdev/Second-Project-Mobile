@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lyceum_saturday10_2025.common.UserPrefsManager
 import com.example.lyceum_saturday10_2025.common.api.AuthRepository
+import com.example.lyceum_saturday10_2025.features.todo.MainScreen.presentation.model.TodoUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -54,4 +55,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun isLoggedIn() = prefs.accessToken != null
+
+    fun logout() {
+        prefs.clearUser()
+        authState.value = AuthState.Idle
+    }
 }

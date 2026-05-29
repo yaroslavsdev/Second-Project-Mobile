@@ -12,6 +12,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lyceum_saturday10_2025.features.destinations.LoginScreenDestination
+import com.example.lyceum_saturday10_2025.features.destinations.RegisterScreenDestination
 import com.example.lyceum_saturday10_2025.features.destinations.TodoScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -25,16 +26,21 @@ fun RegisterScreen(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val authState by viewModel.authState.collectAsState()
+    var validationError by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         if (viewModel.isLoggedIn()) {
-            navigator.navigate(TodoScreenDestination)
+            navigator.navigate(TodoScreenDestination) {
+                popUpTo(RegisterScreenDestination) { inclusive = true }
+            }
         }
     }
 
     LaunchedEffect(authState) {
         if (authState is AuthViewModel.AuthState.Success) {
-            navigator.navigate(TodoScreenDestination)
+            navigator.navigate(TodoScreenDestination) {
+                popUpTo(RegisterScreenDestination) { inclusive = true }
+            }
         }
     }
 
@@ -46,7 +52,11 @@ fun RegisterScreen(
     ) {
         OutlinedTextField(
             value = username,
-            onValueChange = { username = it },
+            onValueChange = {
+                if (!it.endsWith('\n') and !it.endsWith(' ')) {
+                    username = it
+                }
+            },
             label = { Text("Имя пользователя") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -55,7 +65,11 @@ fun RegisterScreen(
 
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                if (!it.endsWith('\n') and !it.endsWith(' ')) {
+                    password = it
+                }
+            },
             label = { Text("Пароль") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
@@ -64,6 +78,13 @@ fun RegisterScreen(
         if (authState is AuthViewModel.AuthState.Error) {
             Text(
                 text = (authState as AuthViewModel.AuthState.Error).message,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        if (validationError.isNotEmpty()) {
+            Text(
+                text = validationError,
                 color = MaterialTheme.colorScheme.error
             )
         }
@@ -78,7 +99,14 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { viewModel.register(username, password) },
+            onClick = {
+                if (username.isBlank() || password.isBlank()) {
+                    validationError = "Заполните все поля"
+                } else {
+                    validationError = ""
+                    viewModel.register(username, password)
+                }
+            },
             enabled = authState !is AuthViewModel.AuthState.Loading,
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -89,7 +117,11 @@ fun RegisterScreen(
 
         TextButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { navigator.navigate(LoginScreenDestination) }
+            onClick = {
+                navigator.navigate(LoginScreenDestination) {
+                    popUpTo(RegisterScreenDestination) { inclusive = true }
+                }
+            }
         ) {
             Text("Есть аккаунт? Вход")
         }

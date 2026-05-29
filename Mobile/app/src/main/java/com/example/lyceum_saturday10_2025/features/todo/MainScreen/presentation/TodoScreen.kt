@@ -8,7 +8,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lyceum_saturday10_2025.features.destinations.LoginScreenDestination
 import com.example.lyceum_saturday10_2025.features.destinations.RegisterScreenDestination
+import com.example.lyceum_saturday10_2025.features.destinations.TodoScreenDestination
+import com.example.lyceum_saturday10_2025.features.todo.AuthScreen.AuthViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -18,8 +21,10 @@ fun TodoScreen(
     navigator: DestinationsNavigator
 ) {
     val viewmodel = viewModel<TodoViewModel>()
+    val authViewModel = viewModel<AuthViewModel>()
     val state by viewmodel.state.collectAsState()
     val context = LocalContext.current
+
 
     LaunchedEffect(state.showServerError) {
         if (state.showServerError) {
@@ -41,7 +46,14 @@ fun TodoScreen(
         Log.d("NAV", "TodoScreen opened, isUnauthorized=${state.isUnauthorized}")
     }
 
-    TodoScreenContent(state) { text ->
-        viewmodel.addItem(text)
-    }
+    TodoScreenContent(
+        state = state,
+        addItem = { text -> viewmodel.addItem(text) },
+        onLogout = {
+            authViewModel.logout()
+            navigator.navigate(RegisterScreenDestination) {
+                popUpTo(TodoScreenDestination) { inclusive = true }
+            }
+        }
+    )
 }
