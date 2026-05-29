@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.lyceum_saturday10_2025.features.destinations.LoginScreenDestination
 import com.example.lyceum_saturday10_2025.features.destinations.RegisterScreenDestination
 import com.example.lyceum_saturday10_2025.features.destinations.TodoScreenDestination
 import com.example.lyceum_saturday10_2025.features.todo.AuthScreen.AuthViewModel

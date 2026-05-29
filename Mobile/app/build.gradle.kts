@@ -80,5 +80,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    implementation("androidx.compose.runtime:runtime-livedata:1.9.0")
+    implementation(libs.androidx.compose.runtime.livedata)
 }
