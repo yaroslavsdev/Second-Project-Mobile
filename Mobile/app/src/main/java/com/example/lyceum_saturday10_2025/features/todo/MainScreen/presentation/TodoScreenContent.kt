@@ -29,13 +29,22 @@ fun TodoScreenContent(
     state: TodoUiState,
     addItem: (String) -> Unit,
 ) {
-    Column {
+    Column(
+        modifier = Modifier.padding(horizontal = 8.dp)
+    ) {
         var textFieldValue by remember { mutableStateOf("") }
         OutlinedTextField(
             modifier = Modifier.padding(8.dp),
             value = textFieldValue,
             onValueChange = { newValue ->
-                textFieldValue = newValue
+                if (newValue.endsWith('\n')) {
+                    if (textFieldValue.isNotBlank()) {
+                        addItem(textFieldValue)
+                        textFieldValue = ""
+                    }
+                } else {
+                    textFieldValue = newValue
+                }
             },
             placeholder = {
                 Text("Введите текст")
@@ -45,7 +54,10 @@ fun TodoScreenContent(
         Button(
             modifier = Modifier.padding(8.dp),
             onClick = {
-                addItem(textFieldValue)
+                if (textFieldValue.isNotBlank()) {
+                    addItem(textFieldValue)
+                    textFieldValue = ""
+                }
             }
         ) {
             Text("Добавить")

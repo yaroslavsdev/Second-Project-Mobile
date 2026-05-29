@@ -27,6 +27,7 @@ fun TodoScreen(
             viewmodel.clearServerError()
         }
     }
+
     LaunchedEffect(state.isUnauthorized) {
         if (state.isUnauthorized) {
             viewmodel.clearUnauthorized()
