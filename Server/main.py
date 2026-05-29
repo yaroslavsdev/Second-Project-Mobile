@@ -95,20 +95,6 @@ def user_list():
 @app.route("/items")
 @jwt_required()
 def item_list():
-    # items = [{
-    #     "id": 1,
-    #     "text": "Item 1",
-    #     "userId": 1,
-    # }, {
-    #     "id": 2,
-    #     "text": "Item 3 test",
-    #     "userId": 1,
-    # }, {
-    #     "id": 3,
-    #     "text": "Item 3 asdasd",
-    #     "userId": 1,
-    # }, ]
-
     username = get_jwt_identity()
     user_id = db.session.query(User.id).filter_by(username=username).scalar()
 
