@@ -35,11 +35,6 @@ class TodoItem(db.Model):
     text: Mapped[str] = mapped_column()
 
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
-
 @app.route("/login", methods=["POST"])
 def login():
     username = request.json.get("username", None)
@@ -56,6 +51,7 @@ def login():
     else:
         return jsonify({"error": "Invalid username"}), 401
 
+
 @app.route("/register", methods=["POST"])
 def register():
     username = request.json.get("username", None)
@@ -64,8 +60,8 @@ def register():
     if db.session.query(User.id).filter_by(username=username).first() is not None:
         return jsonify({"message": "Username already exists"}), 400
 
-    passwordHashed = generate_password_hash(password, method='pbkdf2:sha256')
-    user = User(username=username, password=passwordHashed)
+    password_hashed = generate_password_hash(password, method='pbkdf2:sha256')
+    user = User(username=username, password=password_hashed)
     db.session.add(user)
     db.session.commit()
 
@@ -73,10 +69,10 @@ def register():
     refresh_token = create_refresh_token(identity=username)
     return jsonify(access_token=access_token, refresh_token=refresh_token)
 
+
 @app.route("/protected", methods=["GET"])
 @jwt_required()
 def protected():
-    # Access the identity of the current user with get_jwt_identity
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
@@ -112,7 +108,14 @@ def item_list():
     #     "text": "Item 3 asdasd",
     #     "userId": 1,
     # }, ]
-    items = db.session.execute(db.select(TodoItem)).scalars().all()
+
+    username = get_jwt_identity()
+    user_id = db.session.query(User.id).filter_by(username=username).scalar()
+
+    if user_id is None:
+        return jsonify({"message": "User not found"}), 400
+
+    items = db.session.execute(db.select(TodoItem).where(TodoItem.userId == user_id)).scalars().all()
     return jsonify(items)
 
 
@@ -120,8 +123,15 @@ def item_list():
 @jwt_required()
 def add_todo():
     text = request.json["text"]
-    todoItem = TodoItem(text=text, userId=1)
-    db.session.add(todoItem)
+
+    username = get_jwt_identity()
+    user_id = db.session.query(User.id).filter_by(username=username).scalar()
+
+    if user_id is None:
+        return jsonify({"message": "User not found"}), 400
+
+    todo_item = TodoItem(text=text, userId=user_id)
+    db.session.add(todo_item)
     db.session.commit()
     return "Success"
 
