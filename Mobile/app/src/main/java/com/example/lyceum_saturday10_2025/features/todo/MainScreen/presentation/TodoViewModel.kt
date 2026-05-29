@@ -31,21 +31,22 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     )
                 )
-            } catch (e: retrofit2.HttpException) {
-                if (e.code() == 422 || e.code() == 401) {
-                    repository.prefs.clearUser()
-                    _state.emit(TodoUiState(isUnauthorized = true))
-                }
             } catch (e: Exception) {
-
+                repository.prefs.clearUser()
+                _state.emit(TodoUiState(isUnauthorized = true))
             }
         }
     }
 
     fun addItem(text: String) {
         viewModelScope.launch {
-            repository.addItem(text)
-            loadItems()
+            try {
+                repository.addItem(text)
+                loadItems()
+            } catch (e: Exception) {
+                repository.prefs.clearUser()
+                _state.emit(TodoUiState(isUnauthorized = true))
+            }
         }
     }
 

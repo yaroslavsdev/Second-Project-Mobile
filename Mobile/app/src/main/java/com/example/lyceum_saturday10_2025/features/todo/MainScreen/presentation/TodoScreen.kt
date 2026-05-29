@@ -6,8 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.lyceum_saturday10_2025.features.destinations.LoginScreenDestination
-import com.example.lyceum_saturday10_2025.features.destinations.TodoScreenDestination
+import com.example.lyceum_saturday10_2025.features.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -22,7 +21,7 @@ fun TodoScreen(
     LaunchedEffect(state.isUnauthorized) {
         if (state.isUnauthorized) {
             viewmodel.clearUnauthorized()
-            navigator.navigate(LoginScreenDestination) {
+            navigator.navigate(RegisterScreenDestination) {
                 launchSingleTop = true
             }
         }

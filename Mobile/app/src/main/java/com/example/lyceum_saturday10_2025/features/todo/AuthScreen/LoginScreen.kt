@@ -20,7 +20,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 @Composable
-@Destination()
+@Destination
 fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: AuthViewModel = viewModel()
@@ -76,6 +76,13 @@ fun LoginScreen(
             )
         }
 
+        if (authState is AuthViewModel.AuthState.ServerUnavailable) {
+            Text(
+                text = "Сервер недоступен",
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
@@ -89,6 +96,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         TextButton(
+            modifier = Modifier.fillMaxWidth(),
             onClick = { navigator.navigate(RegisterScreenDestination) }
         ) {
             Text("Нет аккаунта? Регистрация")

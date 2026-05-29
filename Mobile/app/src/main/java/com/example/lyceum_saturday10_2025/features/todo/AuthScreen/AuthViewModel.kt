@@ -18,6 +18,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         object Success : AuthState()
         data class Error(val message: String) : AuthState()
         object Loading : AuthState()
+        object ServerUnavailable : AuthState()
     }
 
     val authState = MutableStateFlow<AuthState>(AuthState.Idle)
@@ -30,6 +31,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             prefs.refreshToken = response.refresh_token
             prefs.username = username
             authState.value = AuthState.Success
+        } catch (e: java.io.IOException) {
+            authState.value = AuthState.ServerUnavailable
         } catch (e: Exception) {
             authState.value = AuthState.Error("Неверный логин или пароль")
         }
@@ -43,6 +46,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             prefs.refreshToken = response.refresh_token
             prefs.username = username
             authState.value = AuthState.Success
+        } catch (e: java.io.IOException) {
+            authState.value = AuthState.ServerUnavailable
         } catch (e: Exception) {
             authState.value = AuthState.Error("Пользователь уже существует")
         }

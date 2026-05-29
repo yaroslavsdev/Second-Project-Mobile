@@ -68,6 +68,13 @@ fun RegisterScreen(
             )
         }
 
+        if (authState is AuthViewModel.AuthState.ServerUnavailable) {
+            Text(
+                text = "Сервер недоступен",
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(

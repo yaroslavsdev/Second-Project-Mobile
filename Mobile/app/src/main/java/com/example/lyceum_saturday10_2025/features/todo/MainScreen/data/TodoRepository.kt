@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient.Builder
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.lyceum_saturday10_2025.BuildConfig.BASE_URL
 
 class TodoRepository(val applicationContext: Context) {
     val prefs = UserPrefsManager(applicationContext)
@@ -54,7 +55,7 @@ class TodoRepository(val applicationContext: Context) {
                 )
             }.build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
             .build()
@@ -67,7 +68,7 @@ class TodoRepository(val applicationContext: Context) {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
         httpClient.addInterceptor(logging)
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
             .build()
