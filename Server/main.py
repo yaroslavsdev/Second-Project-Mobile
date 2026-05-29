@@ -139,5 +139,7 @@ def add_todo():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    # app.run(host='localhost', port=8080, debug=True)
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='localhost', port=8080, debug=True)
+
+    # Для локальной сети
+    # app.run(host='0.0.0.0', port=8080, debug=True)
