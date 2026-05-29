@@ -31,6 +31,8 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     )
                 )
+            } catch (e: java.io.IOException) {
+                _state.emit(_state.value.copy(showServerError = true))
             } catch (e: Exception) {
                 repository.prefs.clearUser()
                 _state.emit(TodoUiState(isUnauthorized = true))
@@ -43,6 +45,8 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 repository.addItem(text)
                 loadItems()
+            } catch (e: java.io.IOException) {
+                _state.emit(_state.value.copy(showServerError = true))
             } catch (e: Exception) {
                 repository.prefs.clearUser()
                 _state.emit(TodoUiState(isUnauthorized = true))
@@ -52,5 +56,9 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearUnauthorized() {
         _state.value = _state.value.copy(isUnauthorized = false)
+    }
+
+    fun clearServerError() {
+        _state.value = _state.value.copy(showServerError = false)
     }
 }
